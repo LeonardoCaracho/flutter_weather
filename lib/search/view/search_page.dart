@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage._();
+  const SearchPage();
 
   static Route<String> route() {
-    return MaterialPageRoute(builder: (_) => const SearchPage._());
+    return MaterialPageRoute(builder: (_) => const SearchPage());
   }
 
   @override
@@ -43,7 +43,9 @@ class _SearchPageState extends State<SearchPage> {
           IconButton(
             key: const Key('searchPage_search_iconButton'),
             icon: const Icon(Icons.search, semanticLabel: 'Submit'),
-            onPressed: () => Navigator.of(context).pop(_text),
+            onPressed: () {
+              Navigator.of(context).pop(_text);
+            },
           )
         ],
       ),
