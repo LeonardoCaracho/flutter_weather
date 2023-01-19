@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather/weather/weather.dart';
-import 'package:weather_repository/weather_repository.dart' as weather_repository;
+import 'package:weather_repository/weather_repository.dart'
+    as weather_repository;
 
 class WeatherPopulated extends StatelessWidget {
   const WeatherPopulated({
@@ -65,6 +66,7 @@ class _WeatherIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
+      key: Key('weather_emojiText'),
       condition.toEmoji,
       style: const TextStyle(fontSize: _iconSize),
     );

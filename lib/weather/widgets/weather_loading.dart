@@ -11,6 +11,7 @@ class WeatherLoading extends StatelessWidget {
       children: [
         const Text('⛅', style: TextStyle(fontSize: 64)),
         Text(
+          key: Key('weather_weatherLoadingText'),
           'Loading Weather',
           style: theme.textTheme.headline5,
         ),
