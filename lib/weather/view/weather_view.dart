@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_weather/routes.dart';
+import 'package:flutter_weather/routes/routes_constants.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/weather.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +23,7 @@ class _WeatherViewState extends State<WeatherView> {
             key: Key('weather_settingsIconButton'),
             icon: const Icon(Icons.settings),
             onPressed: () {
-              context.go(Routes.settings);
+              context.goNamed(Routes.settings);
             },
           ),
         ],
@@ -66,7 +66,7 @@ class _WeatherViewState extends State<WeatherView> {
         key: Key('weather_searchFloatingActionButton'),
         child: const Icon(Icons.search, semanticLabel: 'Search'),
         onPressed: () async {
-          context.go(Routes.search);
+          context.goNamed(Routes.search);
         },
       ),
     );

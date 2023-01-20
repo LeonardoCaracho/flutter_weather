@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_weather/routes.dart';
+import 'package:flutter_weather/routes/routes_constants.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/view/weather_view.dart';
 import 'package:flutter_weather/weather/weather.dart';
@@ -266,7 +266,7 @@ void main() {
 
       await tester.tap(find.byKey(weatherViewSettingsButtonKey));
 
-      verify(() => _goRouter.go(Routes.settings)).called(1);
+      verify(() => _goRouter.goNamed(Routes.settings)).called(1);
     });
 
     testWidgets('to SearchPage search is clicked', (tester) async {
@@ -289,7 +289,7 @@ void main() {
 
       await tester.tap(find.byKey(weatherViewSearchFloatingActionButtonKey));
 
-      verify(() => _goRouter.go(Routes.search)).called(1);
+      verify(() => _goRouter.goNamed(Routes.search)).called(1);
     });
   });
 }
