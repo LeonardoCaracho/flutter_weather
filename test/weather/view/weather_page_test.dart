@@ -7,31 +7,34 @@ import 'package:mockingjay/mockingjay.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockWeatherCubit extends MockCubit<WeatherState>
-    implements WeatherCubit {}
+class _MockWeatherCubit extends MockCubit<WeatherState> implements WeatherCubit {}
 
 void main() {
   late WeatherCubit _weatherCubit;
+  late MockGoRouter _goRouter;
 
   setUp(() {
     initHydratedStorage();
     _weatherCubit = _MockWeatherCubit();
+    _goRouter = MockGoRouter();
     when(() => _weatherCubit.state).thenAnswer((invocation) => WeatherState(
           status: WeatherStatus.initial,
         ));
   });
   group('WeatherPage', () {
-    test('has a page', () {
-      expect(WeatherPage.page(), isA<MaterialPage<void>>());
-    });
-
     testWidgets('renders WeatherPage', (tester) async {
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherPage(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherPage(),
+            ),
+          ),
         ),
       );
+
       expect(find.byType(WeatherPage), findsOneWidget);
     });
   });

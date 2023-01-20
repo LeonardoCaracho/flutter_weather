@@ -1,31 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_weather/search/view/search_page.dart';
-import 'package:flutter_weather/settings/view/settings_page.dart';
+import 'package:flutter_weather/go_router.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/weather.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_repository/weather_repository.dart';
-
-final GoRouter _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: "/",
-      builder: (context, state) => const WeatherPage(),
-      routes: [
-        GoRoute(
-          path: "search",
-          builder: (context, state) => const SearchPage(),
-        ),
-        GoRoute(
-          path: "settings",
-          builder: (context, state) => const SettingsPage(),
-        )
-      ],
-    ),
-  ],
-);
 
 class WeatherApp extends StatelessWidget {
   const WeatherApp({super.key, required WeatherRepository weatherRepository}) : _weatherRepository = weatherRepository;
@@ -55,7 +34,7 @@ class WeatherAppView extends StatelessWidget {
     return BlocBuilder<ThemeCubit, Color>(
       builder: (context, color) {
         return MaterialApp.router(
-          routerConfig: _router,
+          routerConfig: router(),
           theme: ThemeData(
             primaryColor: color,
             textTheme: GoogleFonts.rajdhaniTextTheme(),

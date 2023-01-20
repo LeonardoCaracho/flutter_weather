@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_weather/settings/settings.dart';
 import 'package:flutter_weather/weather/weather.dart';
@@ -20,8 +20,18 @@ void main() {
         ));
   });
   group('SettingsPage', () {
-    test('has a route', () {
-      expect(SettingsPage.route(_weatherCubit), isA<MaterialPageRoute<void>>());
+    testWidgets('should render', (tester) async {
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: _weatherCubit,
+          child: SettingsPage(),
+        ),
+      );
+
+      expect(
+        find.byType(SettingsPage),
+        findsOneWidget,
+      );
     });
   });
 }

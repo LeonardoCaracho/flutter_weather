@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_weather/routes.dart';
 import 'package:flutter_weather/theme/theme.dart';
 import 'package:flutter_weather/weather/view/weather_view.dart';
 import 'package:flutter_weather/weather/weather.dart';
@@ -25,6 +26,7 @@ void main() {
   late WeatherCubit _weatherCubit;
   late ThemeCubit _themeCubit;
   late MockNavigator _navigator;
+  late MockGoRouter _goRouter;
 
   setUp(
     () {
@@ -32,6 +34,7 @@ void main() {
       _weatherCubit = _MockWeatherCubit();
       _themeCubit = _MockThemeCubit();
       _navigator = MockNavigator();
+      _goRouter = MockGoRouter();
 
       when(() => _weatherCubit.state).thenAnswer(
         (invocation) => WeatherState(
@@ -43,10 +46,15 @@ void main() {
 
   group('renders', () {
     testWidgets('Settings icon button', (tester) async {
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
       );
 
@@ -57,10 +65,15 @@ void main() {
     });
 
     testWidgets('Search floating action button', (tester) async {
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
       );
 
@@ -71,10 +84,15 @@ void main() {
     });
 
     testWidgets('WeatherEmpty widget when initial', (tester) async {
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
       );
 
@@ -91,10 +109,15 @@ void main() {
         ),
       );
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
       );
 
@@ -111,10 +134,15 @@ void main() {
         ),
       );
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
       );
 
@@ -131,10 +159,15 @@ void main() {
         ),
       );
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
       );
 
@@ -213,42 +246,27 @@ void main() {
 
       handle.dispose();
     });
-
-    testWidgets('fetchWeather when search', (tester) async {
-      when(() => _navigator.push<String>(any())).thenAnswer((invocation) async => 'city');
-      when(() => _weatherCubit.fetchWeather(any())).thenAnswer(
-        (_) => Future.value(),
-      );
-
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
-        ),
-        navigator: _navigator,
-      );
-
-      await tester.tap(find.byKey(weatherViewSearchFloatingActionButtonKey));
-
-      verify(() => _weatherCubit.fetchWeather('city')).called(1);
-    });
   });
 
   group('navigates', () {
     testWidgets('to SettingsPage when settings is clicked', (tester) async {
       when(() => _navigator.push<void>(any())).thenAnswer((invocation) async {});
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
-        navigator: _navigator,
       );
 
       await tester.tap(find.byKey(weatherViewSettingsButtonKey));
 
-      verify(() => _navigator.push<void>(any())).called(1);
+      verify(() => _goRouter.go(Routes.settings)).called(1);
     });
 
     testWidgets('to SearchPage search is clicked', (tester) async {
@@ -257,17 +275,21 @@ void main() {
         (_) => Future.value(),
       );
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MockGoRouterProvider(
+            goRouter: _goRouter,
+            child: BlocProvider.value(
+              value: _weatherCubit,
+              child: WeatherView(),
+            ),
+          ),
         ),
-        navigator: _navigator,
       );
 
       await tester.tap(find.byKey(weatherViewSearchFloatingActionButtonKey));
 
-      verify(() => _navigator.push<String>(any())).called(1);
+      verify(() => _goRouter.go(Routes.search)).called(1);
     });
   });
 }

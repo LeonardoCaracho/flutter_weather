@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_weather/go_router.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:weather_repository/weather_repository.dart';
 
@@ -24,6 +25,25 @@ extension PumpApp on WidgetTester {
                     body: widgetUnderTest,
                   ),
                 ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> pumpRealRouterApp(
+    String location,
+    Widget Function(Widget child) builder, {
+    bool isConnected = true,
+    WeatherRepository? weatherRepository,
+  }) {
+    return pumpWidget(
+      builder(
+        RepositoryProvider(
+          create: (context) => weatherRepository ?? MockWeatherRepository(),
+          child: MaterialApp.router(
+            routeInformationParser: router(location).routeInformationParser,
+            routerDelegate: router(location).routerDelegate,
+          ),
         ),
       ),
     );
