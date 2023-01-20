@@ -4,7 +4,8 @@ import 'package:flutter_weather/settings/settings.dart';
 import 'package:flutter_weather/weather/view/view.dart';
 import 'package:go_router/go_router.dart';
 
-GoRouter router([String? initialLocation]) => GoRouter(
+GoRouter router({String? initialLocation}) => GoRouter(
+      initialLocation: initialLocation,
       routes: [
         GoRoute(
           name: 'home',

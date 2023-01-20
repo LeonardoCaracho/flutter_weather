@@ -38,12 +38,8 @@ extension PumpApp on WidgetTester {
   }) {
     return pumpWidget(
       builder(
-        RepositoryProvider(
-          create: (context) => weatherRepository ?? MockWeatherRepository(),
-          child: MaterialApp.router(
-            routeInformationParser: router(location).routeInformationParser,
-            routerDelegate: router(location).routerDelegate,
-          ),
+        MaterialApp.router(
+          routerConfig: router(initialLocation: location),
         ),
       ),
     );
