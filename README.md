@@ -6,55 +6,50 @@ An example Flutter weather app using the [OpenMeteoApi API](https://open-meteo.c
 
 ## Related Tutorials
 
-- [Flutter App Architecture: The Repository Pattern](https://codewithandrea.com/articles/flutter-repository-pattern/)
+- [Flutter Weather Tutorial](https://bloclibrary.dev/#/flutterweathertutorial)
 
 ## Supported Features
 
 - [x] Current weather (condition and temperature)
-- [x] 5-day weather forecast
+- [x] switch temperature metric unit
 - [x] Search by city
 
 ## App Architecture
 
-The app is composed by two main layers.
+The app is composed by four main layers.
 
 ### Data Layer
 
-The data layer contains a single weather repository that is used to fetch weather data from the [OpenWeatherMap API](https://openweathermap.org/api).
+The data layer contains a single weather repository that is used to fetch weather raw data from the API.
 
-The data is then parsed (using Freezed) and returned using **type-safe** entity classes (`Weather` and `Forecast`).
+### Repository
 
-For more info about this, read this tutorial:
+Abstract the data layer and expose domain models for the application to consume, facilitating the communication with the Bussiness Logic layer.
 
-- [Flutter App Architecture: The Repository Pattern](https://codewithandrea.com/articles/flutter-repository-pattern/)
+### Bussiness Logic
+
+Consumes the domain model from the repository layer and expose a feature-level model which will be surfaced to the user via UI.
 
 ### Presentation Layer
 
-This layer holds all the widgets, along with their controllers.
-
+This layer holds all the widgets, along with their blocs.
 Widgets do not communicate directly with the repository.
-
-Instead, they watch some controllers that extend the `StateNotifier` class (using Riverpod).
-
-This allows to map the data from the layer above to `AsyncValue` objects that can be mapped to the appropriate UI states (data, loading, error).
 
 ## Packages in use
 
-- [riverpod](https://pub.dev/packages/riverpod) for state management
-- [freezed](https://pub.dev/packages/freezed) for code generation
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc) for state management
+- [build_runner](https://pub.dev/packages/build_runner) for code generation
 - [http](https://pub.dev/packages/http) for talking to the REST API
-- [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
 - [mocktail](https://pub.dev/packages/mocktail) for testing
+- [go_router](https://pub.dev/packages/go_router) for navigation
 
-## About the OpenStreetMap weather API
+## About the OpenMeteo weather API
 
 The app shows data from the following endpoints:
 
-- [Current Weather Data](https://openweathermap.org/current)
-- [Weather Fields in API Response](https://openweathermap.org/current#parameter)
-- [5 day weather forecast](https://openweathermap.org/forecast5)
-- [Weather Conditions](https://openweathermap.org/weather-conditions)
+- [Get location for a given city](https://open-meteo.com/en/docs/geocoding-api)
+- [Get weather conditions](https://open-meteo.com/en/docs)
 
-**Note**: to use the API you'll need to register an account and obtain your own API key. This can be set via `--dart-define` or inside `lib/src/api/api_keys.dart`.
+**Note**: to use the API you'll need to register an account and obtain your own API key.
 
 ### [LICENSE: MIT](LICENSE.md)
