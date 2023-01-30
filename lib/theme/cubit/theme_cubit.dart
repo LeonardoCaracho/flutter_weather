@@ -6,7 +6,7 @@ import 'package:weather_repository/weather_repository.dart' hide Weather;
 class ThemeCubit extends HydratedCubit<Color> {
   ThemeCubit() : super(defaultColor);
 
-  static const defaultColor = Color(0xFF2196F3);
+  static const defaultColor = Color.fromARGB(255, 255, 123, 0);
 
   void updateTheme(Weather? weather) {
     if (weather != null) emit(weather.toColor);
