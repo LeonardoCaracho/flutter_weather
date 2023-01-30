@@ -16,14 +16,14 @@ const settingsViewListTileKey = Key('settingsView_listTile');
 const settingsViewSwitchKey = Key('settingsView_Switch');
 
 void main() {
-  late WeatherCubit _weatherCubit;
+  late WeatherCubit weatherCubit;
 
   setUp(
     () {
       initHydratedStorage();
-      _weatherCubit = _MockWeatherCubit();
+      weatherCubit = _MockWeatherCubit();
 
-      when(() => _weatherCubit.state).thenReturn(
+      when(() => weatherCubit.state).thenReturn(
         WeatherState(
           status: WeatherStatus.initial,
         ),
@@ -35,8 +35,8 @@ void main() {
     testWidgets('Settings AppBar', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
-          value: _weatherCubit,
-          child: SettingsView(),
+          value: weatherCubit,
+          child: const SettingsView(),
         ),
       );
 
@@ -49,8 +49,8 @@ void main() {
     testWidgets('Settings ListView', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
-          value: _weatherCubit,
-          child: SettingsView(),
+          value: weatherCubit,
+          child: const SettingsView(),
         ),
       );
 
@@ -63,8 +63,8 @@ void main() {
     testWidgets('Settings ListTile', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
-          value: _weatherCubit,
-          child: SettingsView(),
+          value: weatherCubit,
+          child: const SettingsView(),
         ),
       );
 
@@ -79,15 +79,15 @@ void main() {
     testWidgets('toggleUnits when switch', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
-          value: _weatherCubit,
-          child: SettingsView(),
+          value: weatherCubit,
+          child: const SettingsView(),
         ),
       );
 
       await tester.tap(find.byKey(settingsViewSwitchKey));
       await tester.pump();
 
-      verify(() => _weatherCubit.toggleUnits()).called(1);
+      verify(() => weatherCubit.toggleUnits()).called(1);
     });
   });
 }

@@ -10,12 +10,12 @@ import '../../helpers/helpers.dart';
 class _MockWeatherCubit extends MockCubit<WeatherState> implements WeatherCubit {}
 
 void main() {
-  late WeatherCubit _weatherCubit;
+  late WeatherCubit weatherCubit;
 
   setUp(() {
     initHydratedStorage();
-    _weatherCubit = _MockWeatherCubit();
-    when(() => _weatherCubit.state).thenAnswer((invocation) => WeatherState(
+    weatherCubit = _MockWeatherCubit();
+    when(() => weatherCubit.state).thenAnswer((invocation) => WeatherState(
           status: WeatherStatus.initial,
         ));
   });
@@ -23,8 +23,8 @@ void main() {
     testWidgets('should render', (tester) async {
       await tester.pumpApp(
         BlocProvider.value(
-          value: _weatherCubit,
-          child: SettingsPage(),
+          value: weatherCubit,
+          child: const SettingsPage(),
         ),
       );
 

@@ -11,7 +11,7 @@ class WeatherEmpty extends StatelessWidget {
       children: [
         const Text('🏙️', style: TextStyle(fontSize: 64)),
         Text(
-          key: Key('weather_selectCityText'),
+          key: const Key('weather_selectCityText'),
           'Please Select a City!',
           style: theme.textTheme.headline5,
         ),

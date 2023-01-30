@@ -20,7 +20,7 @@ class _WeatherViewState extends State<WeatherView> {
         title: const Text('Flutter Weather'),
         actions: [
           IconButton(
-            key: Key('weather_settingsIconButton'),
+            key: const Key('weather_settingsIconButton'),
             icon: const Icon(Icons.settings),
             onPressed: () {
               context.goNamed(Routes.settings);
@@ -47,7 +47,7 @@ class _WeatherViewState extends State<WeatherView> {
                 );
               case WeatherStatus.success:
                 return WeatherPopulated(
-                  key: Key('weather_weatherPopulatedWidget'),
+                  key: const Key('weather_weatherPopulatedWidget'),
                   weather: state.weather,
                   units: state.temperatureUnits,
                   onRefresh: () {
@@ -63,7 +63,7 @@ class _WeatherViewState extends State<WeatherView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        key: Key('weather_searchFloatingActionButton'),
+        key: const Key('weather_searchFloatingActionButton'),
         child: const Icon(Icons.search, semanticLabel: 'Search'),
         onPressed: () async {
           context.goNamed(Routes.search);

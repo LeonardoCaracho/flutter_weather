@@ -23,20 +23,20 @@ const weatherViewErrorWidgetKey = Key('weather_weatherErrorWidget');
 const weatherViewEmojiText = Key('weather_emojiText');
 
 void main() {
-  late WeatherCubit _weatherCubit;
-  late ThemeCubit _themeCubit;
-  late MockNavigator _navigator;
-  late MockGoRouter _goRouter;
+  late WeatherCubit weatherCubit;
+  late ThemeCubit themeCubit;
+  late MockNavigator navigator;
+  late MockGoRouter goRouter;
 
   setUp(
     () {
       initHydratedStorage();
-      _weatherCubit = _MockWeatherCubit();
-      _themeCubit = _MockThemeCubit();
-      _navigator = MockNavigator();
-      _goRouter = MockGoRouter();
+      weatherCubit = _MockWeatherCubit();
+      themeCubit = _MockThemeCubit();
+      navigator = MockNavigator();
+      goRouter = MockGoRouter();
 
-      when(() => _weatherCubit.state).thenAnswer(
+      when(() => weatherCubit.state).thenAnswer(
         (invocation) => WeatherState(
           status: WeatherStatus.initial,
         ),
@@ -49,10 +49,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -68,10 +68,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -87,10 +87,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -103,7 +103,7 @@ void main() {
     });
 
     testWidgets('WeatherLoading widget when loading', (tester) async {
-      when(() => _weatherCubit.state).thenAnswer(
+      when(() => weatherCubit.state).thenAnswer(
         (invocation) => WeatherState(
           status: WeatherStatus.loading,
         ),
@@ -112,10 +112,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -128,7 +128,7 @@ void main() {
     });
 
     testWidgets('WeatherPopulated widget when success', (tester) async {
-      when(() => _weatherCubit.state).thenAnswer(
+      when(() => weatherCubit.state).thenAnswer(
         (invocation) => WeatherState(
           status: WeatherStatus.success,
         ),
@@ -137,10 +137,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -153,7 +153,7 @@ void main() {
     });
 
     testWidgets('WeatherError widget when fails', (tester) async {
-      when(() => _weatherCubit.state).thenAnswer(
+      when(() => weatherCubit.state).thenAnswer(
         (invocation) => WeatherState(
           status: WeatherStatus.failure,
         ),
@@ -162,10 +162,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -181,7 +181,7 @@ void main() {
   group('adds', () {
     testWidgets('updateTheme when status is success', (tester) async {
       whenListen(
-        _weatherCubit,
+        weatherCubit,
         Stream.fromIterable(
           [WeatherState(status: WeatherStatus.success)],
         ),
@@ -191,26 +191,26 @@ void main() {
         MultiBlocProvider(
           providers: [
             BlocProvider.value(
-              value: _weatherCubit,
+              value: weatherCubit,
             ),
             BlocProvider.value(
-              value: _themeCubit,
+              value: themeCubit,
             )
           ],
-          child: WeatherView(),
+          child: const WeatherView(),
         ),
       );
 
-      verify(() => _themeCubit.updateTheme(any())).called(1);
+      verify(() => themeCubit.updateTheme(any())).called(1);
     });
 
     testWidgets('refreshWeather when refresh page', (tester) async {
-      when(() => _weatherCubit.state).thenAnswer(
+      when(() => weatherCubit.state).thenAnswer(
         (invocation) => WeatherState(
           status: WeatherStatus.success,
         ),
       );
-      when(() => _weatherCubit.refreshWeather()).thenAnswer(
+      when(() => weatherCubit.refreshWeather()).thenAnswer(
         (_) => Future.value(),
       );
 
@@ -218,8 +218,8 @@ void main() {
 
       await tester.pumpApp(
         BlocProvider.value(
-          value: _weatherCubit,
-          child: WeatherView(),
+          value: weatherCubit,
+          child: const WeatherView(),
         ),
       );
 
@@ -242,7 +242,7 @@ void main() {
         const Duration(seconds: 1),
       ); // finish the indicator hide animation
 
-      verify(() => _weatherCubit.refreshWeather()).called(1);
+      verify(() => weatherCubit.refreshWeather()).called(1);
 
       handle.dispose();
     });
@@ -250,15 +250,15 @@ void main() {
 
   group('navigates', () {
     testWidgets('to SettingsPage when settings is clicked', (tester) async {
-      when(() => _navigator.push<void>(any())).thenAnswer((invocation) async {});
+      when(() => navigator.push<void>(any())).thenAnswer((invocation) async {});
 
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -266,22 +266,22 @@ void main() {
 
       await tester.tap(find.byKey(weatherViewSettingsButtonKey));
 
-      verify(() => _goRouter.goNamed(Routes.settings)).called(1);
+      verify(() => goRouter.goNamed(Routes.settings)).called(1);
     });
 
     testWidgets('to SearchPage search is clicked', (tester) async {
-      when(() => _navigator.push<String>(any())).thenAnswer((invocation) async => 'city');
-      when(() => _weatherCubit.fetchWeather(any())).thenAnswer(
+      when(() => navigator.push<String>(any())).thenAnswer((invocation) async => 'city');
+      when(() => weatherCubit.fetchWeather(any())).thenAnswer(
         (_) => Future.value(),
       );
 
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: WeatherView(),
+              value: weatherCubit,
+              child: const WeatherView(),
             ),
           ),
         ),
@@ -289,7 +289,7 @@ void main() {
 
       await tester.tap(find.byKey(weatherViewSearchFloatingActionButtonKey));
 
-      verify(() => _goRouter.goNamed(Routes.search)).called(1);
+      verify(() => goRouter.goNamed(Routes.search)).called(1);
     });
   });
 }

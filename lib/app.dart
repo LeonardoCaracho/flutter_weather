@@ -20,7 +20,7 @@ class WeatherApp extends StatelessWidget {
       BlocProvider(
         create: (_) => WeatherCubit(_weatherRepository),
       ),
-    ], child: WeatherAppView());
+    ], child: const WeatherAppView());
   }
 }
 
