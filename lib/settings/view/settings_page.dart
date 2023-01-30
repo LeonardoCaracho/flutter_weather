@@ -4,7 +4,9 @@ import 'package:flutter_weather/settings/settings.dart';
 import 'package:flutter_weather/weather/weather.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage();
+  const SettingsPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

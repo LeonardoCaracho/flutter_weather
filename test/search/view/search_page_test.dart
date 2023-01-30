@@ -12,22 +12,22 @@ import '../../helpers/helpers.dart';
 class _MockWeatherCubit extends MockCubit<WeatherState> implements WeatherCubit {}
 
 void main() {
-  late WeatherCubit _weatherCubit;
-  late MockGoRouter _goRouter;
+  late WeatherCubit weatherCubit;
+  late MockGoRouter goRouter;
 
   group('SearchPage', () {
     setUpAll(() {
-      _weatherCubit = _MockWeatherCubit();
-      _goRouter = MockGoRouter();
+      weatherCubit = _MockWeatherCubit();
+      goRouter = MockGoRouter();
     });
     testWidgets('should renders correct page', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: SearchPage(),
+              value: weatherCubit,
+              child: const SearchPage(),
             ),
           ),
         ),
@@ -38,28 +38,28 @@ void main() {
     });
 
     testWidgets('should push when click in search', (tester) async {
-      when(() => _weatherCubit.state).thenReturn(
+      when(() => weatherCubit.state).thenReturn(
         WeatherState(
           status: WeatherStatus.initial,
         ),
       );
-      when(() => _weatherCubit.fetchWeather(any())).thenAnswer((_) async => {});
+      when(() => weatherCubit.fetchWeather(any())).thenAnswer((_) async => {});
 
       await tester.pumpWidget(
         MaterialApp(
           home: MockGoRouterProvider(
-            goRouter: _goRouter,
+            goRouter: goRouter,
             child: BlocProvider.value(
-              value: _weatherCubit,
-              child: SearchPage(),
+              value: weatherCubit,
+              child: const SearchPage(),
             ),
           ),
         ),
       );
 
-      await tester.tap(find.byKey(Key('searchPage_search_iconButton')));
+      await tester.tap(find.byKey(const Key('searchPage_search_iconButton')));
 
-      verify(() => _goRouter.go(Routes.home)).called(1);
+      verify(() => goRouter.go(Routes.home)).called(1);
     });
   });
 }

@@ -4,7 +4,9 @@ import 'package:flutter_weather/weather/weather.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage();
+  const SearchPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SearchPage> createState() => _SearchPageState();

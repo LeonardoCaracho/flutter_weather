@@ -11,23 +11,23 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        key: Key('settingsView_appBar'),
+        key: const Key('settingsView_appBar'),
         title: const Text('Settings'),
       ),
       body: ListView(
-        key: Key('settingsView_listView'),
+        key: const Key('settingsView_listView'),
         children: <Widget>[
           BlocBuilder<WeatherCubit, WeatherState>(
             builder: (context, state) {
               return ListTile(
-                key: Key('settingsView_listTile'),
+                key: const Key('settingsView_listTile'),
                 title: const Text('Temperature Units'),
                 isThreeLine: true,
                 subtitle: const Text(
                   'Use metric measurements for temperature units.',
                 ),
                 trailing: Switch(
-                  key: Key('settingsView_Switch'),
+                  key: const Key('settingsView_Switch'),
                   value: state.temperatureUnits.isCelsius,
                   onChanged: (_) => context.read<WeatherCubit>().toggleUnits(),
                 ),
